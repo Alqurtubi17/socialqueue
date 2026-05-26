@@ -259,7 +259,7 @@ export default function AIBankPage() {
                       <div className="flex items-center gap-4 mt-3 text-[11px] text-zinc-600">
                         {post.scheduledAt && (
                           <span>
-                            📅 {new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                            📅 {new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" })}
                           </span>
                         )}
                         {post.jitterSeconds && (

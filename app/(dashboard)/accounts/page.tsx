@@ -157,7 +157,7 @@ export default function AccountsPage() {
                       {acc.lastPostedAt && (
                         <>
                           <span>·</span>
-                          <span>Terakhir: {new Date(acc.lastPostedAt).toLocaleDateString("id-ID")}</span>
+                          <span>Terakhir: {new Date(acc.lastPostedAt).toLocaleDateString("id-ID", { timeZone: "Asia/Jakarta" })}</span>
                         </>
                       )}
                     </div>

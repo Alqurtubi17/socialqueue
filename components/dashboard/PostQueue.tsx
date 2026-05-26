@@ -58,10 +58,10 @@ export async function PostQueue({ userId, limit = 10 }: { userId: string; limit?
             {post.jitteredAt ? (
               <div>
                 <p className="text-[11px] text-zinc-500">
-                  {new Date(post.jitteredAt).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}
+                  {new Date(post.jitteredAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", timeZone: "Asia/Jakarta" })}
                 </p>
                 <p className="text-[11px] text-zinc-600">
-                  {new Date(post.jitteredAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(post.jitteredAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" })}
                 </p>
                 {post.jitterSeconds && (
                   <p className="text-[10px] text-emerald-600 mt-0.5">+{post.jitterSeconds}s jitter</p>
@@ -69,7 +69,7 @@ export async function PostQueue({ userId, limit = 10 }: { userId: string; limit?
               </div>
             ) : post.scheduledAt ? (
               <p className="text-[11px] text-zinc-600">
-                {new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}
+                {new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", timeZone: "Asia/Jakarta" })}
               </p>
             ) : (
               <p className="text-[11px] text-zinc-700">Belum terjadwal</p>

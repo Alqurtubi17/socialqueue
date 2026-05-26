@@ -47,7 +47,7 @@ export default async function DashboardPage() {
             <h1 className="text-lg font-bold tracking-tight">Dashboard</h1>
             <p className="text-xs text-zinc-600 mt-0.5">
               {new Date().toLocaleDateString("id-ID", {
-                weekday: "long", day: "numeric", month: "long", year: "numeric",
+                weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta"
               })}
             </p>
           </div>

@@ -74,18 +74,18 @@ export default async function SchedulerPage() {
                       {post.jitteredAt && (
                         <>
                           <p className="text-zinc-400 font-medium">
-                            {new Date(post.jitteredAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}
+                            {new Date(post.jitteredAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" })}
                           </p>
-                          <p>{new Date(post.jitteredAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}</p>
+                          <p>{new Date(post.jitteredAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" })}</p>
                           {post.jitterSeconds && <p className="text-emerald-600">+{post.jitterSeconds}s jitter</p>}
                         </>
                       )}
                       {!post.jitteredAt && post.scheduledAt && (
-                        <p>{new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short" })}</p>
+                        <p>{new Date(post.scheduledAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", timeZone: "Asia/Jakarta" })}</p>
                       )}
                       {post.publishedAt && (
                         <p className="text-blue-400">
-                          {new Date(post.publishedAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                          {new Date(post.publishedAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Jakarta" })}
                         </p>
                       )}
                     </div>
