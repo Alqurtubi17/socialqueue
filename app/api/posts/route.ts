@@ -12,22 +12,61 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status") ?? undefined;
   const platform = searchParams.get("platform") ?? undefined;
-  const limit = Math.min(parseInt(searchParams.get("limit") ?? "50"), 500);
+  
+  // Pagination
+  const page = Math.max(parseInt(searchParams.get("page") ?? "1"), 1);
+  const limit = Math.min(parseInt(searchParams.get("limit") ?? "20"), 100);
+  const skip = (page - 1) * limit;
 
-  const posts = await prisma.post.findMany({
-    where: {
-      userId: session.user.id,
-      ...(status && { status: status as never }),
-      ...(platform && { platform: platform as never }),
-    },
-    include: {
-      socialAccount: { select: { platformUsername: true, platform: true } },
-    },
-    orderBy: [{ status: "asc" }, { scheduledAt: "asc" }],
-    take: limit,
+  // Date filtering (scheduledAt)
+  const month = searchParams.get("month"); // "1" to "12"
+  const year = searchParams.get("year");
+  const date = searchParams.get("date"); // "YYYY-MM-DD"
+
+  let scheduledAtFilter: any = undefined;
+
+  if (date) {
+    const startOfDay = new Date(`${date}T00:00:00.000Z`);
+    const endOfDay = new Date(`${date}T23:59:59.999Z`);
+    scheduledAtFilter = {
+      gte: startOfDay,
+      lte: endOfDay,
+    };
+  } else if (month && year) {
+    const startDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+    const endDate = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999);
+    scheduledAtFilter = {
+      gte: startDate,
+      lte: endDate,
+    };
+  }
+
+  const where = {
+    userId: session.user.id,
+    ...(status && status !== "ALL" && { status: status as never }),
+    ...(platform && platform !== "ALL" && { platform: platform as never }),
+    ...(scheduledAtFilter && { scheduledAt: scheduledAtFilter }),
+  };
+
+  const [posts, total] = await Promise.all([
+    prisma.post.findMany({
+      where,
+      include: {
+        socialAccount: { select: { platformUsername: true, platform: true } },
+      },
+      orderBy: [{ status: "asc" }, { scheduledAt: "asc" }],
+      skip,
+      take: limit,
+    }),
+    prisma.post.count({ where }),
+  ]);
+
+  return NextResponse.json({ 
+    posts, 
+    total, 
+    page, 
+    totalPages: Math.ceil(total / limit) 
   });
-
-  return NextResponse.json({ posts });
 }
 
 export async function POST(req: NextRequest) {
