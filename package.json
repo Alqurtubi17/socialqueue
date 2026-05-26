@@ -11,6 +11,7 @@
     "worker:dev": "tsx watch worker/index.ts",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
+    "postinstall": "prisma generate",
     "db:studio": "prisma studio"
   },
   "dependencies": {
