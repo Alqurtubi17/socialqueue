@@ -55,12 +55,8 @@ export function Sidebar({ user }: { user?: { name?: string | null; email?: strin
     <aside className="w-56 bg-[#0a0a0c] border-r border-[#141416] flex flex-col flex-shrink-0">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 pt-5 pb-6">
-        <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center flex-shrink-0">
-          <svg width="16" height="16" viewBox="0 0 28 28" fill="none">
-            <path d="M6 14c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#000" strokeWidth="2.5" strokeLinecap="round"/>
-            <circle cx="14" cy="19" r="3" fill="#000"/>
-            <path d="M11 14h6" stroke="#000" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
+        <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <img src="/logo.png" alt="SocialQueue Logo" className="w-full h-full object-cover" />
         </div>
         <span className="text-sm font-bold tracking-tight">SocialQueue</span>
       </div>

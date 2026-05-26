@@ -45,12 +45,8 @@ export default function LoginPage() {
       <div className="relative w-full max-w-sm animate-fade-in">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-              <path d="M6 14c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#000" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="14" cy="19" r="3" fill="#000"/>
-              <path d="M11 14h6" stroke="#000" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center overflow-hidden">
+            <img src="/logo.png" alt="SocialQueue Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-xl font-bold tracking-tight">SocialQueue</span>
         </div>
