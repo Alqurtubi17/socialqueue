@@ -1,0 +1,35 @@
+name: SocialQueue Worker (Playwright)
+
+on:
+  schedule:
+    # Jalan setiap 30 menit
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Memungkinkan trigger manual dari UI GitHub
+
+jobs:
+  run-worker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Worker Cron
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+        run: npm run worker:cron

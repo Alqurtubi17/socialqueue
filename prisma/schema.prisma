@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Platform {
+  X
+  THREADS
+}
+
+enum PostStatus {
+  DRAFT
+  APPROVED
+  SCHEDULED
+  PUBLISHED
+  FAILED
+  CANCELLED
+}
+
+enum SubscriptionPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+}
+
+model User {
+  id            String           @id @default(cuid())
+  name          String?
+  email         String           @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  plan          SubscriptionPlan @default(FREE)
+
+  accounts       Account[]
+  sessions       Session[]
+  socialAccounts SocialAccount[]
+  posts          Post[]
+  contentBatches ContentBatch[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Akun media sosial yang dihubungkan.
+// Autentikasi dilakukan via browser automation (Playwright),
+// session cookies disimpan terenkripsi di kolom sessionCookies.
+model SocialAccount {
+  id        String   @id @default(cuid())
+  userId    String
+  platform  Platform
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Identitas akun
+  platformUsername String
+  platformUserId   String?
+  avatarUrl        String?
+
+  // Kredensial login (disimpan terenkripsi)
+  loginUsername String  @db.Text // username/email, terenkripsi AES-256
+  loginPassword String  @db.Text // password, terenkripsi AES-256
+
+  // Browser session (cookies hasil login Playwright)
+  // Format: JSON array of Playwright cookie objects, terenkripsi
+  sessionCookies   String?  @db.Text
+  sessionExpiresAt DateTime?
+  sessionValid     Boolean  @default(false)
+
+  // Statistik & proteksi
+  dailyPostCount  Int      @default(0)
+  dailyPostDate   DateTime @default(now())
+  totalPostCount  Int      @default(0)
+  lastPostedAt    DateTime?
+  isActive        Boolean  @default(true)
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posts Post[]
+
+  @@unique([userId, platform, platformUsername])
+  @@map("social_accounts")
+}
+
+model ContentBatch {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  platform      Platform
+  topic         String
+  daysGenerated Int      @default(30)
+  totalPosts    Int      @default(0)
+  promptUsed    String   @db.Text
+  temperature   Float    @default(0.85)
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  posts Post[]
+
+  @@map("content_batches")
+}
+
+model Post {
+  id              String     @id @default(cuid())
+  userId          String
+  socialAccountId String
+  batchId         String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  // Konten
+  content         String     @db.Text
+  // JSON array of string: 3-5 variasi spintax
+  contentVariants Json?
+  selectedVariant Int?
+
+  // Platform & Status
+  platform Platform
+  status   PostStatus @default(DRAFT)
+
+  // Jadwal
+  scheduledAt   DateTime? // Jadwal ideal dari user/AI
+  jitteredAt    DateTime? // Jadwal aktual = scheduledAt + jitter
+  jitterSeconds Int?      // Berapa detik jitter diterapkan
+
+  // Hasil publish
+  publishedAt     DateTime?
+  platformPostId  String?
+  platformPostUrl String?
+
+  // Error handling & retry
+  lastError   String? @db.Text
+  retryCount  Int     @default(0)
+  nextRetryAt DateTime?
+
+  // QStash job ID (jika menggunakan QStash)
+  qstashJobId String? @unique
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  socialAccount SocialAccount @relation(fields: [socialAccountId], references: [id], onDelete: Cascade)
+  batch         ContentBatch? @relation(fields: [batchId], references: [id], onDelete: SetNull)
+
+  @@index([status, jitteredAt])
+  @@index([userId, status])
+  @@map("posts")
+}
