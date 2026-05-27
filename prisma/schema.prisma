@@ -118,6 +118,10 @@ model SocialAccount {
   lastPostedAt    DateTime?
   isActive        Boolean  @default(true)
 
+  // Auto-generate settings
+  autoGenerateEnabled Boolean @default(true)
+  autoGenerateContext Json?
+
   user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   posts Post[]
 

@@ -41,6 +41,29 @@ export default function SchedulerPage() {
   const [monthFilter, setMonthFilter] = useState("");
   const [yearFilter, setYearFilter] = useState(new Date().getFullYear().toString());
 
+  const handleApprove = async (postId: string, scheduledAt: string | null) => {
+    if (!scheduledAt) {
+      alert("Post tidak memiliki jadwal (scheduledAt).");
+      return;
+    }
+    
+    try {
+      const res = await fetch(`/api/posts/${postId}/approve`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scheduledAt }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal approve post");
+      
+      // Update UI optimistically
+      setPosts(posts.map(p => p.id === postId ? { ...p, status: "SCHEDULED", jitteredAt: data.jitteredAt, jitterSeconds: data.jitterSeconds } : p));
+      alert("Post berhasil disetujui dan dijadwalkan!");
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
+
   const fetchPosts = () => {
     setLoading(true);
     const params = new URLSearchParams({
@@ -233,6 +256,14 @@ export default function SchedulerPage() {
                           <span className={`badge text-[11px] font-medium whitespace-nowrap ${cfg.className}`}>
                             {cfg.label}
                           </span>
+                          {post.status === "DRAFT" && (
+                            <button
+                              onClick={() => handleApprove(post.id, post.scheduledAt)}
+                              className="mt-2 text-[10px] bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded transition-colors block w-fit font-medium"
+                            >
+                              Approve
+                            </button>
+                          )}
                         </td>
                         <td className="px-5 py-4 align-top text-right">
                           <div className="flex flex-col gap-1 text-[11px] items-end justify-start">

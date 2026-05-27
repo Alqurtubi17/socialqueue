@@ -71,6 +71,11 @@ TEKNIK HOOK (gunakan bergantian, jangan semua jenis hook dalam satu batch domina
 3. Pernyataan kontrarian: tantang asumsi umum
 4. Micro-story: cerita pendek 1-2 kalimat yang relatable
 5. Penegasan langsung: satu kalimat kuat tanpa basa-basi
+6. Mitos vs Fakta: sanggah mitos yang beredar luas di industri terkait
+7. Humor ringan / Meme-style: pendekatan santai, lucu, namun tetap membawa value
+8. Tips Praktis / Hacks: berikan jalan pintas atau cara cepat yang belum banyak diketahui
+9. A Day in Life / Behind The Scene: cerita proses di balik layar yang autentik
+10. Analogical Hook: gunakan perbandingan unik untuk menjelaskan konsep kompleks
 
 STRUKTUR VALUE:
 - Berikan insight nyata sebelum minta perhatian
@@ -263,7 +268,7 @@ Pastikan tidak ada karakter control (seperti enter/newline literal) di dalam nil
     {
       "dayOffset": 0,
       "topicCategory": "edukasi|promo|testimoni|storytelling|engagement|insight",
-      "hookType": "pertanyaan|statistik|kontrarian|cerita|penegasan",
+      "hookType": "pertanyaan|statistik|kontrarian|cerita|penegasan|mitos_fakta|humor|tips|bts|analogi",
       "content": "Isi konten utama...",
       ${generateVariants ? `"variants": ["Variasi 1...", "Variasi 2...", "Variasi 3..."],` : ""}
       "charCount": 245

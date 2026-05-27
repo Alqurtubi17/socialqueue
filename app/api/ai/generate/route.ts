@@ -44,6 +44,15 @@ export async function POST(req: NextRequest) {
       generateVariants: generateVariants ?? true,
     });
 
+    // Simpan context untuk auto-generate harian
+    await prisma.socialAccount.update({
+      where: { id: socialAccountId },
+      data: {
+        autoGenerateContext: businessContext,
+        autoGenerateEnabled: true,
+      }
+    });
+
     return NextResponse.json({ ...result }, { status: 201 });
   } catch (error: any) {
     console.error("AI Generation Error:", error);
