@@ -186,5 +186,7 @@ model Post {
 
   @@index([status, jitteredAt])
   @@index([userId, status])
+  @@index([userId, status, scheduledAt])
+  @@index([userId, platform, scheduledAt])
   @@map("posts")
 }

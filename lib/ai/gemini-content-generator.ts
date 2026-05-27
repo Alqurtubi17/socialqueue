@@ -81,6 +81,7 @@ SUMBER FAKTA & OTORITAS (PENTING):
 - Untuk membangun otoritas, sesekali gunakan fakta dunia nyata, tren industri terbaru, atau wawasan dari jurnal penelitian bergengsi (contoh: riset Harvard, jurnal IEEE, laporan McKinsey, publikasi BPS, dsb) yang relevan dengan industri/pesan kunci.
 - Sampaikan fakta atau kutipan akademik tersebut secara natural sebagai insight berharga, jangan seperti sedang menulis makalah.
 - Jadikan brand ini terlihat sebagai pakar sungguhan yang berbicara berdasarkan data dan riset nyata, bukan sekadar asbun.
+- WAJIB HASHTAG: Di akhir setiap konten (baik konten utama maupun variasi spintax-nya), WAJIB sertakan 3-5 hashtag yang relevan, senada, atau mirip dengan: #zonauang #jokitugas #jokispss (kamu bisa kembangkan dengan variasi seperti #jokiskripsi, #tugasakhir, #cuan, dsb).
 ${ctx.brandName.toLowerCase().includes("solutionist") ? "- PENTING: Secara acak (sekitar 30% dari total post), sertakan link website https://solutionist-id.vercel.app atau https://solutionist-id.vercel.app/marketplace di akhir konten secara natural." : ""}`;
 }
 
