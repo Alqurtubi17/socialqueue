@@ -20,8 +20,9 @@ export async function POST(
   let result: { success: boolean; error?: string } = { success: false, error: "Platform tidak didukung" };
 
   if (account.platform === "X") {
-    const { testLoginX } = await import("@/lib/platforms/x-automation");
-    result = await testLoginX(account.id);
+    // Playwright cannot be run on Vercel API routes.
+    // Login verification is delegated to the worker during the first post.
+    result = { success: true };
   }
 
   if (result.success) {

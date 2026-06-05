@@ -13,7 +13,7 @@
 //   PM2      → pm2 start "npm run worker" --name socialqueue-worker
 
 import "dotenv/config";
-import { processScheduledQueue } from "@/lib/scheduler/queue-processor";
+import { processScheduledQueue } from "@/lib/scheduler/worker-processor";
 import { closeBrowser } from "@/lib/platforms/browser-manager";
 import { prisma } from "@/lib/prisma";
 

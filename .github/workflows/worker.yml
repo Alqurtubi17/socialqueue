@@ -2,8 +2,8 @@ name: SocialQueue Worker (Playwright)
 
 on:
   schedule:
-    # Jalan setiap 30 menit
-    - cron: '*/30 * * * *'
+    # Jalan setiap 30 menit, tapi di menit ganjil untuk menghindari delay GitHub Actions
+    - cron: '13,43 * * * *'
   workflow_dispatch: # Memungkinkan trigger manual dari UI GitHub
 
 jobs:

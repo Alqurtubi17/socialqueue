@@ -63,7 +63,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
       updateData.scheduledAt = date;
       const targetStatus = body.status !== undefined ? body.status : post.status;
       if (targetStatus === "SCHEDULED") {
-        const { calculateJitter } = await import("@/lib/scheduler/queue-processor");
+        const { calculateJitter } = await import("@/lib/scheduler/core");
         const jitterSeconds = calculateJitter(60, 900);
         updateData.jitterSeconds = jitterSeconds;
         updateData.jitteredAt = new Date(date.getTime() + jitterSeconds * 1000);
@@ -84,7 +84,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         return NextResponse.json({ error: "scheduledAt wajib diisi untuk menjadwalkan post." }, { status: 400 });
       }
       if (updateData.jitteredAt === undefined) {
-        const { calculateJitter } = await import("@/lib/scheduler/queue-processor");
+        const { calculateJitter } = await import("@/lib/scheduler/core");
         const jitterSeconds = calculateJitter(60, 900);
         updateData.jitterSeconds = jitterSeconds;
         updateData.jitteredAt = new Date(new Date(schedAt).getTime() + jitterSeconds * 1000);

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { applyJitterAndSchedule } from "@/lib/scheduler/queue-processor";
+import { applyJitterAndSchedule } from "@/lib/scheduler/core";
 
 export async function POST(
   req: NextRequest,
