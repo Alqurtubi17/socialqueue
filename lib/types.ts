@@ -1,6 +1,6 @@
 // Shared domain types — mirrors Prisma enums
 // In production these come from @prisma/client after `prisma generate`
-export type Platform = "X";
+export type Platform = "X" | "THREADS";
 export type PostStatus = "DRAFT" | "APPROVED" | "SCHEDULED" | "PUBLISHED" | "FAILED" | "CANCELLED";
 
 export interface Post {

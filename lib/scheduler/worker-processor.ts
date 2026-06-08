@@ -2,8 +2,8 @@
 import { Post, PostStatus, Platform } from "@/lib/types";
 import { prisma } from "@/lib/prisma";
 
-const DAILY_CAPS: Record<Platform, number> = { X: 12 };
-const MIN_INTERVAL_SECONDS: Record<Platform, number> = { X: 900 };
+const DAILY_CAPS: Record<Platform, number> = { X: 12, THREADS: 12 };
+const MIN_INTERVAL_SECONDS: Record<Platform, number> = { X: 900, THREADS: 900 };
 
 // ── Safety check
 interface SafetyCheck { safe: boolean; reason?: string; waitSeconds?: number; }
