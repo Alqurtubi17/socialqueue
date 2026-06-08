@@ -42,7 +42,7 @@ function buildSystemPrompt(ctx: BusinessContext, platform: Platform): string {
       ? `Platform X (Twitter). Batas panjang teks untuk field "content" dan "variants" adalah MAKS ${ctx.maxCharacters ?? 280} KARAKTER. Langsung ke inti. Satu hook kuat di kalimat pertama.`
       : `Platform Threads. Batas panjang teks untuk field "content" dan "variants" adalah MAKS ${ctx.maxCharacters ?? 500} KARAKTER. Boleh lebih naratif dan personal. Gunakan emoji secukupnya.`;
 
-  return `Kamu adalah copywriter senior spesialis konten media sosial Indonesia dengan 12 tahun pengalaman.
+  return `Kamu adalah copywriter senior spesialis konten media sosial bilingual (Indonesia dan Inggris) dengan 12 tahun pengalaman.
 
 PENTING UNTUK JSON: 
 Jika kamu ingin membuat baris baru/line break di dalam teks, kamu WAJIB menggunakan \\n. JANGAN PERNAH membuat enter/baris baru secara literal di dalam teks JSON! Semua tanda kutip ganda (") di dalam teks juga HARUS di-escape dengan \\".
@@ -50,7 +50,7 @@ Jika kamu ingin membuat baris baru/line break di dalam teks, kamu WAJIB mengguna
 KARAKTER PENULISANMU:
 - Kamu menulis seperti manusia yang benar-benar peduli dengan audiensnya.
 - Kamu TIDAK PERNAH menggunakan: "Tentu saja!", "Sebagai [peran]...", "Berikut adalah...", "Kesimpulannya...", "Poin penting:", "Perlu diingat bahwa...", atau frasa robotik lainnya.
-- Kamu menulis Bahasa Indonesia baku sesuai EYD namun mengalir natural — bukan kaku buku teks, bukan lebay iklan.
+- Kamu menulis dengan gaya yang natural dan mengalir, baik dalam Bahasa Indonesia maupun Bahasa Inggris.
 - Kamu tidak pernah menyebutkan bahwa ini dibuat AI.
 - Kamu tidak hiperbola. Kamu spesifik dan kredibel.
 
@@ -86,7 +86,7 @@ SUMBER FAKTA & OTORITAS (PENTING):
 - Untuk membangun otoritas, sesekali gunakan fakta dunia nyata, tren industri terbaru, atau wawasan dari jurnal penelitian bergengsi (contoh: riset Harvard, jurnal IEEE, laporan McKinsey, publikasi BPS, dsb) yang relevan dengan industri/pesan kunci.
 - Sampaikan fakta atau kutipan akademik tersebut secara natural sebagai insight berharga, jangan seperti sedang menulis makalah.
 - Jadikan brand ini terlihat sebagai pakar sungguhan yang berbicara berdasarkan data dan riset nyata, bukan sekadar asbun.
-- WAJIB HASHTAG: Di akhir setiap konten (baik konten utama maupun variasi spintax-nya), WAJIB sertakan 3-5 hashtag yang relevan, senada, atau mirip dengan: #zonauang #jokitugas #jokispss (kamu bisa kembangkan dengan variasi seperti #jokiskripsi, #tugasakhir, #cuan, dsb).
+- WAJIB HASHTAG RELEVAN & VIRAL: Di akhir setiap konten (baik konten utama maupun variasi spintax-nya), WAJIB sertakan 3-5 hashtag yang SANGAT RELEVAN secara spesifik dengan topik konten tersebut, namun memiliki volume pencarian/engagement tinggi agar berpeluang viral. JANGAN gunakan hashtag pasaran/umum seperti #fyp atau #viral. Gunakan hashtag kuat yang benar-benar sesuai dengan isi konten.
 ${ctx.brandName.toLowerCase().includes("solutionist") ? "- PENTING: Secara acak (sekitar 30% dari total post), sertakan link website https://solutionist-id.vercel.app atau https://solutionist-id.vercel.app/marketplace di akhir konten secara natural." : ""}`;
 }
 
@@ -255,6 +255,7 @@ export async function generateContentBatch(
 WAJIB:
 - Panjang string pada field "content" dan masing-masing item di "variants" < ${maxChars} karakter.
 - Batasan karakter ini HANYA UNTUK TEKS KONTENNYA! Kamu WAJIB mencetak seluruh ${currentChunkSize} item post secara lengkap dalam JSON. JANGAN BERHENTI DI TENGAH JALAN!
+- BAHASA SELANG-SELING: Buat konten dengan bahasa yang bergantian secara selang-seling antara Bahasa Indonesia dan Bahasa Inggris untuk menjangkau audiens yang lebih luas (contoh: post 1 Indonesia, post 2 Inggris, post 3 Indonesia, dst).
 - Tidak ada 2 post berturut-turut bertema sama
 - Setiap pesan kunci terdistribusi merata
 ${generateVariants ? `- Setiap post punya 3 variasi alternatif (phrasing berbeda, pesan sama)` : ""}
@@ -425,8 +426,8 @@ export async function regenerateSinglePost(
   const platform = post.platform;
   const maxChars = platform === "X" ? 280 : 500;
 
-  const system = `Kamu adalah copywriter senior Indonesia. Buat konten media sosial yang natural dan tidak terlihat seperti buatan AI.`;
-  const user = `Buat 1 konten ${platform} pengganti yang lebih baik dan engaging dari ini:
+  const system = `Kamu adalah copywriter senior bilingual (Indonesia dan Inggris). Buat konten media sosial yang natural dan tidak terlihat seperti buatan AI.`;
+  const user = `Buat 1 konten ${platform} pengganti yang lebih baik dan engaging dari ini (ikuti bahasa konten aslinya atau instruksi):
 "${post.content}"
 ${instruction ? `\nInstruksi: ${instruction}` : ""}
 
