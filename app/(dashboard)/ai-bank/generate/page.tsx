@@ -256,7 +256,7 @@ export default function GeneratePage() {
     <div className="flex-1 overflow-auto">
       <header className="border-b border-[#141416] px-7 py-4 sticky top-0 bg-[#09090b] z-10">
         <h1 className="text-lg font-bold tracking-tight">Generate Konten AI</h1>
-        <p className="text-xs text-zinc-600 mt-0.5">Gemini akan menulis konten 30 hari dengan gaya copywriter Indonesia berpengalaman</p>
+        <p className="text-xs text-zinc-600 mt-0.5">AI akan menulis konten 30 hari dengan gaya copywriter profesional</p>
       </header>
 
       <div className="p-7 max-w-2xl">
@@ -394,16 +394,16 @@ export default function GeneratePage() {
           </div>
 
           {/* Info box */}
-          <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-4 text-xs text-zinc-400 space-y-1.5">
-            <p className="text-emerald-400 font-semibold mb-2">Yang akan Gemini lakukan:</p>
+          <div className="bg-emerald-500/5 border border-emerald-500/15 rounded-xl p-4 text-xs text-zinc-400 space-y-1.5 animate-fade-in">
+            <p className="text-emerald-400 font-semibold mb-2">Yang akan AI lakukan:</p>
             {[
-              `Menulis ${form.days * form.postsPerDay} post draft dalam Bahasa Indonesia baku, gaya organik`,
-              "Menggunakan 5 jenis engagement hook secara bergantian",
+              `Menulis ${form.days * form.postsPerDay} post draft bilingual (Indonesia & Inggris), gaya organik`,
+              "Menggunakan 10 jenis engagement hook secara bergantian",
               "Menyebarkan pesan kunci secara merata selama periode",
               form.generateVariants ? "Membuat 3 variasi spintax per post" : "Tanpa variasi spintax",
               "Semua disimpan sebagai DRAFT — kamu review sebelum dijadwalkan",
-            ].map((item) => (
-              <p key={item} className="flex items-start gap-2">
+            ].map((item, i) => (
+              <p key={item} className="flex items-start gap-2 animate-slide-up" style={{ animationDelay: `${i * 100}ms` }}>
                 <span className="text-emerald-500 mt-0.5">✓</span>{item}
               </p>
             ))}
@@ -418,7 +418,7 @@ export default function GeneratePage() {
           {loading && (
             <div className="space-y-2">
               <div className="flex justify-between text-xs text-zinc-500">
-                <span>Gemini sedang menulis...</span>
+                <span>AI sedang menulis...</span>
                 <span>{progress}%</span>
               </div>
               <div className="h-1.5 bg-[#18181b] rounded-full overflow-hidden">
