@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 
 const TONES = [
   { value: "profesional", label: "Profesional" },
-  { value: "santai",      label: "Santai & Relatable" },
-  { value: "inspiratif",  label: "Inspiratif" },
-  { value: "edukasi",     label: "Edukatif" },
-  { value: "komunitas",   label: "Komunitas" },
+  { value: "santai", label: "Santai & Relatable" },
+  { value: "inspiratif", label: "Inspiratif" },
+  { value: "edukasi", label: "Edukatif" },
+  { value: "komunitas", label: "Komunitas" },
 ];
 
 const TEMPLATES = [
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Jasa Olah Data Statistik & Riset",
     targetAudience: "Mahasiswa S1/S2/S3 dan peneliti yang sedang pusing mengerjakan olah data Bab 4",
     mainValueProp: "Jasa olah data statistik (SPSS/STATA/EViews/R) yang cepat, akurat, dan auto lolos uji lengkap dengan naskah interpretasi Bab 4",
@@ -21,7 +21,7 @@ const TEMPLATES = [
     tone: "santai",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Konsultan Machine Learning & AI",
     targetAudience: "Pemilik bisnis, startup, dan mahasiswa IT yang membutuhkan prediksi, klasifikasi, atau clustering data",
     mainValueProp: "Membangun model Machine Learning yang presisi (Python/R) lengkap dengan source code, preprocessing, dan laporan evaluasi akurasi",
@@ -37,7 +37,7 @@ const TEMPLATES = [
     tone: "edukasi",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Konsultasi Publikasi Jurnal & Akademik",
     targetAudience: "Dosen, peneliti, dan mahasiswa S2/S3 yang mengejar publikasi jurnal SINTA/Scopus",
     mainValueProp: "Pendampingan penyusunan artikel ilmiah berstandar internasional mulai dari struktur, metodologi, hingga analisis data empiris",
@@ -45,7 +45,7 @@ const TEMPLATES = [
     tone: "profesional",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Business Intelligence & Data Visualization",
     targetAudience: "C-Level, Manajer, dan Pemilik Bisnis yang kesulitan membaca ribuan baris data Excel",
     mainValueProp: "Pembuatan dashboard interaktif (Tableau/Power BI) yang mengubah data mentah menjadi insight bisnis dalam hitungan detik",
@@ -53,7 +53,7 @@ const TEMPLATES = [
     tone: "inspiratif",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Web Scraping & Data Mining",
     targetAudience: "Perusahaan riset, startup, dan analis yang butuh dataset spesifik berskala besar dari internet",
     mainValueProp: "Jasa ekstraksi data otomatis dari website dan e-commerce dalam format bersih yang siap diolah (CSV/JSON/SQL)",
@@ -61,7 +61,7 @@ const TEMPLATES = [
     tone: "profesional",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "NLP & Sentiment Analysis",
     targetAudience: "Brand manager, tim PR, dan agensi marketing yang ingin memonitor opini publik",
     mainValueProp: "Analisis sentimen berbasis AI (Natural Language Processing) untuk membaca persepsi netizen di media sosial secara otomatis",
@@ -69,7 +69,7 @@ const TEMPLATES = [
     tone: "edukasi",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Bootcamp & Mentoring Data Science",
     targetAudience: "Mahasiswa, fresh graduate, dan career switcher yang ingin jadi Data Analyst/Data Scientist",
     mainValueProp: "Mentoring intensif 1-on-1 belajar Python, SQL, dan Machine Learning langsung studi kasus real-world",
@@ -77,7 +77,7 @@ const TEMPLATES = [
     tone: "komunitas",
   },
   {
-    brandName: "Solutionist ID",
+    brandName: "solutionist",
     industry: "Custom ERP & IT System Development",
     targetAudience: "UMKM menengah dan perusahaan yang sistem operasionalnya masih berantakan/manual",
     mainValueProp: "Pembuatan sistem IT kustom (Web/Mobile) yang mengintegrasikan keuangan, inventaris, dan HR dalam satu pintu",
@@ -122,13 +122,13 @@ export default function GeneratePage() {
     const dailyTemplate = TEMPLATES[dayOfYear % TEMPLATES.length];
 
     setForm(prev => ({
-       ...prev,
-       brandName: dailyTemplate.brandName,
-       industry: dailyTemplate.industry,
-       targetAudience: dailyTemplate.targetAudience,
-       mainValueProp: dailyTemplate.mainValueProp,
-       keyMessages: dailyTemplate.keyMessages,
-       tone: dailyTemplate.tone
+      ...prev,
+      brandName: dailyTemplate.brandName,
+      industry: dailyTemplate.industry,
+      targetAudience: dailyTemplate.targetAudience,
+      mainValueProp: dailyTemplate.mainValueProp,
+      keyMessages: dailyTemplate.keyMessages,
+      tone: dailyTemplate.tone
     }));
 
     async function fetchAccounts() {
@@ -138,11 +138,11 @@ export default function GeneratePage() {
           const data = await res.json();
           setAccounts(data.accounts || []);
           if (data.accounts && data.accounts.length > 0) {
-             setForm(prev => ({ 
-                ...prev, 
-                socialAccountId: data.accounts[0].id, 
-                platform: data.accounts[0].platform 
-             }));
+            setForm(prev => ({
+              ...prev,
+              socialAccountId: data.accounts[0].id,
+              platform: data.accounts[0].platform
+            }));
           }
         }
       } catch (err) {
@@ -157,13 +157,13 @@ export default function GeneratePage() {
   function applyRandomTemplate() {
     const randomTemplate = TEMPLATES[Math.floor(Math.random() * TEMPLATES.length)];
     setForm(prev => ({
-       ...prev,
-       brandName: randomTemplate.brandName,
-       industry: randomTemplate.industry,
-       targetAudience: randomTemplate.targetAudience,
-       mainValueProp: randomTemplate.mainValueProp,
-       keyMessages: randomTemplate.keyMessages,
-       tone: randomTemplate.tone
+      ...prev,
+      brandName: randomTemplate.brandName,
+      industry: randomTemplate.industry,
+      targetAudience: randomTemplate.targetAudience,
+      mainValueProp: randomTemplate.mainValueProp,
+      keyMessages: randomTemplate.keyMessages,
+      tone: randomTemplate.tone
     }));
   }
 
@@ -272,14 +272,14 @@ export default function GeneratePage() {
                 ) : accounts.length === 0 ? (
                   <div className="text-xs text-red-400 mt-2">Belum ada akun terhubung. Tambahkan di menu Akun Terhubung.</div>
                 ) : (
-                  <select 
-                    className="input" 
-                    value={form.socialAccountId} 
+                  <select
+                    className="input"
+                    value={form.socialAccountId}
                     onChange={(e) => {
-                       const acc = accounts.find(a => a.id === e.target.value);
-                       if (acc) {
-                          setForm(prev => ({ ...prev, socialAccountId: e.target.value, platform: acc.platform as "X" }));
-                       }
+                      const acc = accounts.find(a => a.id === e.target.value);
+                      if (acc) {
+                        setForm(prev => ({ ...prev, socialAccountId: e.target.value, platform: acc.platform as "X" }));
+                      }
                     }}
                     required
                   >
@@ -312,27 +312,27 @@ export default function GeneratePage() {
                 onClick={applyRandomTemplate}
                 className="text-xs bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></svg>
                 Ganti Template Acak
               </button>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="section-label">Nama Brand</label>
-                <input className="input" placeholder="e.g. Toko Kopi Nusantara" value={form.brandName} onChange={(e) => update("brandName", e.target.value)} required/>
+                <input className="input" placeholder="e.g. Toko Kopi Nusantara" value={form.brandName} onChange={(e) => update("brandName", e.target.value)} required />
               </div>
               <div>
                 <label className="section-label">Industri / Niche</label>
-                <input className="input" placeholder="e.g. kuliner, teknologi, fashion" value={form.industry} onChange={(e) => update("industry", e.target.value)} required/>
+                <input className="input" placeholder="e.g. kuliner, teknologi, fashion" value={form.industry} onChange={(e) => update("industry", e.target.value)} required />
               </div>
             </div>
             <div>
               <label className="section-label">Target Audiens</label>
-              <input className="input" placeholder="e.g. profesional muda 25-35 tahun di kota besar" value={form.targetAudience} onChange={(e) => update("targetAudience", e.target.value)} required/>
+              <input className="input" placeholder="e.g. profesional muda 25-35 tahun di kota besar" value={form.targetAudience} onChange={(e) => update("targetAudience", e.target.value)} required />
             </div>
             <div>
               <label className="section-label">Proposisi Nilai Utama</label>
-              <input className="input" placeholder="e.g. kopi specialty dengan harga terjangkau dan pengiriman cepat" value={form.mainValueProp} onChange={(e) => update("mainValueProp", e.target.value)} required/>
+              <input className="input" placeholder="e.g. kopi specialty dengan harga terjangkau dan pengiriman cepat" value={form.mainValueProp} onChange={(e) => update("mainValueProp", e.target.value)} required />
             </div>
             <div>
               <label className="section-label">Pesan Kunci (satu per baris, maks 5)</label>
@@ -353,11 +353,10 @@ export default function GeneratePage() {
                     key={t.value}
                     type="button"
                     onClick={() => update("tone", t.value)}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                      form.tone === t.value
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all ${form.tone === t.value
                         ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
                         : "border-[#27272a] text-zinc-500 hover:text-zinc-300"
-                    }`}
+                      }`}
                   >
                     {t.label}
                   </button>
@@ -372,11 +371,11 @@ export default function GeneratePage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="section-label">Jumlah Hari</label>
-                <input type="number" className="input" min={1} max={20} value={form.days || ""} onChange={(e) => update("days", parseInt(e.target.value) || 0)}/>
+                <input type="number" className="input" min={1} max={20} value={form.days || ""} onChange={(e) => update("days", parseInt(e.target.value) || 0)} />
               </div>
               <div>
                 <label className="section-label">Post per Hari</label>
-                <input type="number" className="input" min={1} max={3} value={form.postsPerDay || ""} onChange={(e) => update("postsPerDay", parseInt(e.target.value) || 0)}/>
+                <input type="number" className="input" min={1} max={3} value={form.postsPerDay || ""} onChange={(e) => update("postsPerDay", parseInt(e.target.value) || 0)} />
               </div>
             </div>
             <label className="flex items-center gap-3 cursor-pointer">
@@ -384,7 +383,7 @@ export default function GeneratePage() {
                 onClick={() => update("generateVariants", !form.generateVariants)}
                 className={`w-10 h-5 rounded-full transition-colors relative ${form.generateVariants ? "bg-emerald-500" : "bg-zinc-700"}`}
               >
-                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${form.generateVariants ? "translate-x-5" : "translate-x-0.5"}`}/>
+                <div className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${form.generateVariants ? "translate-x-5" : "translate-x-0.5"}`} />
               </div>
               <div>
                 <p className="text-sm font-medium">Generate Variasi Spintax</p>
