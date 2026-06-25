@@ -263,7 +263,7 @@ export default function GeneratePage() {
         <p className="text-xs text-zinc-600 mt-0.5">AI akan menulis konten 30 hari dengan gaya copywriter profesional</p>
       </header>
 
-      <div className="p-7 max-w-2xl">
+      <div className="p-7 max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Platform & Account */}
           <div className="card p-5 space-y-4">
