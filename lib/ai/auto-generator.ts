@@ -114,22 +114,8 @@ Kembalikan HANYA JSON:
     throw new Error("Format JSON posts tidak valid.");
   }
 
-  // --- Tambahkan Promo Post (wajib 1 per hari) ---
-  const promoTemplates = [
-    "hewoooo! solutionist open yaaa. ayo yg mau olah data/tutor masih ada beberapa slot nihhh #zonauang #jokitugas",
-    "haloo! solutionist open yaa. ayo yang mau konsultasi skripsi (kuantitatif), olah data (spss, eviews, stata, smartpls, dll), analisis data, coding, web, ML, NLP, data mining langsung hit me up yaa di WA dijamin satset dan trusted #zonauang #jokitugas #jokispss"
-  ];
-  const selectedPromo = promoTemplates[Math.floor(Math.random() * promoTemplates.length)];
-  
   // Ambil maksimal 2 konten organik dari Gemini
   parsed.posts = parsed.posts.slice(0, 2);
-
-  // Sisipkan promo post di urutan random
-  const promoIndex = Math.floor(Math.random() * (parsed.posts.length + 1));
-  parsed.posts.splice(promoIndex, 0, {
-    content: selectedPromo,
-    variants: [selectedPromo]
-  });
 
   // 3. Schedule them on the target date OR find the next available day (with < 3 posts)
   let baseDate = targetDate ? new Date(targetDate) : new Date();
