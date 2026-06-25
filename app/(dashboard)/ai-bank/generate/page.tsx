@@ -217,7 +217,11 @@ export default function GeneratePage() {
       setResult(data);
     } catch (err) {
       clearInterval(interval);
-      setError(err instanceof Error ? err.message : "Terjadi kesalahan.");
+      let errMsg = err instanceof Error ? err.message : "Terjadi kesalahan.";
+      if (errMsg.includes("429") || errMsg.includes("quota") || errMsg.includes("RESOURCE_EXHAUSTED")) {
+        errMsg = "Ups! Kuota AI harian sudah penuh karena mencapai batas maksimal request gratis. Silakan coba generate lagi besok ya!";
+      }
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
