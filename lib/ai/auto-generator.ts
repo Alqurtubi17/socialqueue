@@ -35,7 +35,7 @@ async function callGeminiRaw(
   return text;
 }
 
-export async function generateDailyAutoPosts(socialAccountId: string) {
+export async function generateDailyAutoPosts(socialAccountId: string, targetDate?: Date) {
   // 1. Fetch account & context
   const account = await prisma.socialAccount.findUnique({
     where: { id: socialAccountId },
@@ -131,7 +131,50 @@ Kembalikan HANYA JSON:
     variants: [selectedPromo]
   });
 
-  // 3. Schedule them throughout today (e.g., between 8 AM and 10 PM)
+  // 3. Schedule them on the target date OR find the next available day (with < 3 posts)
+  let baseDate = targetDate ? new Date(targetDate) : new Date();
+
+  if (!targetDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const existingPosts = await prisma.post.findMany({
+      where: {
+        socialAccountId,
+        status: { in: ["DRAFT", "APPROVED", "SCHEDULED"] },
+        scheduledAt: { gte: today }
+      },
+      select: { scheduledAt: true }
+    });
+
+    const datePostCounts = new Map<string, number>();
+    existingPosts.forEach((p) => {
+      if (p.scheduledAt) {
+        const d = new Date(p.scheduledAt);
+        const dateKey = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+        datePostCounts.set(dateKey, (datePostCounts.get(dateKey) || 0) + 1);
+      }
+    });
+
+    let checkDate = new Date();
+    while (true) {
+      const dateKey = `${checkDate.getFullYear()}-${checkDate.getMonth()}-${checkDate.getDate()}`;
+      const currentCount = datePostCounts.get(dateKey) || 0;
+      
+      // We need space for `parsed.posts.length` (usually 3) posts
+      // If there is enough space for all of them, use this day
+      if (currentCount + parsed.posts.length <= 3) {
+        baseDate = new Date(checkDate);
+        break; 
+      } else if (currentCount === 0) {
+        // If the day is completely empty, it's also a valid slot
+        baseDate = new Date(checkDate);
+        break;
+      }
+      checkDate.setDate(checkDate.getDate() + 1);
+    }
+  }
+
   const now = new Date();
   const startHour = 8;
   const endHour = 22;
@@ -139,12 +182,12 @@ Kembalikan HANYA JSON:
   const intervalMinutes = ((endHour - startHour) * 60) / postsCount;
 
   const dataToInsert = parsed.posts.map((post: any, index: number) => {
-    const scheduledAt = new Date(now);
+    const scheduledAt = new Date(baseDate);
     scheduledAt.setHours(startHour, 0, 0, 0);
     scheduledAt.setMinutes(scheduledAt.getMinutes() + (index * intervalMinutes));
     
     // Jika waktu yang dijadwalkan sudah lewat hari ini, tambahkan beberapa menit dari sekarang
-    if (scheduledAt < now) {
+    if (scheduledAt < now && !targetDate) {
        scheduledAt.setTime(now.getTime() + (Math.random() * 30 * 60000));
     }
 
