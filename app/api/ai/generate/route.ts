@@ -56,6 +56,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ...result }, { status: 201 });
   } catch (error: any) {
     console.error("AI Generation Error:", error);
-    return NextResponse.json({ error: error.message || "Gagal melakukan generate konten." }, { status: 500 });
+    let errorMessage = error.message || "Gagal melakukan generate konten.";
+    
+    // Berikan pesan yang lebih ramah jika error karena limit/kuota dari Gemini
+    if (errorMessage.includes("429") || errorMessage.includes("quota") || errorMessage.includes("RESOURCE_EXHAUSTED")) {
+      errorMessage = "Ups! Kuota AI harian sudah penuh karena mencapai batas maksimal request gratis. Silakan coba generate lagi besok ya!";
+    }
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
