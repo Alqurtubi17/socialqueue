@@ -24,6 +24,9 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Fix broken apt sources
+        run: sudo rm -rf /etc/apt/sources.list.d/azure-cli.sources /etc/apt/sources.list.d/azure-cli.list /etc/apt/sources.list.d/microsoft-prod.sources /etc/apt/sources.list.d/microsoft-prod.list
+
       - name: Install Playwright Browsers
         run: npx playwright install chromium --with-deps
 
