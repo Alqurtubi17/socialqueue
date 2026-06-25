@@ -67,7 +67,7 @@ Konteks:
 - Pesan: ${ctx.keyMessages?.join(", ")}
 - Tone: ${ctx.tone}`;
 
-  const user = `Buat 20 konten media sosial pendek untuk ${platform} (maks ${maxChars} karakter tiap konten/variasi).
+  const user = `Buat 2 konten media sosial pendek untuk ${platform} (maks ${maxChars} karakter tiap konten/variasi).
 - Gunakan bahasa selang-seling (Indonesia dan Inggris bergantian).
 - WAJIB buat konten yang sangat natural, sertakan pertanyaan/hook/fakta.
 - WAJIB buat 2-3 hashtag spesifik dan viral di setiap post.
@@ -114,11 +114,28 @@ Kembalikan HANYA JSON:
     throw new Error("Format JSON posts tidak valid.");
   }
 
+  // --- Tambahkan Promo Post (wajib 1 per hari) ---
+  const promoTemplates = [
+    "hewoooo! solutionist open yaaa. ayo yg mau olah data/tutor masih ada beberapa slot nihhh #zonauang #jokitugas",
+    "haloo! solutionist open yaa. ayo yang mau konsultasi skripsi (kuantitatif), olah data (spss, eviews, stata, smartpls, dll), analisis data, coding, web, ML, NLP, data mining langsung hit me up yaa di WA dijamin satset dan trusted #zonauang #jokitugas #jokispss"
+  ];
+  const selectedPromo = promoTemplates[Math.floor(Math.random() * promoTemplates.length)];
+  
+  // Ambil maksimal 2 konten organik dari Gemini
+  parsed.posts = parsed.posts.slice(0, 2);
+
+  // Sisipkan promo post di urutan random
+  const promoIndex = Math.floor(Math.random() * (parsed.posts.length + 1));
+  parsed.posts.splice(promoIndex, 0, {
+    content: selectedPromo,
+    variants: [selectedPromo]
+  });
+
   // 3. Schedule them throughout today (e.g., between 8 AM and 10 PM)
   const now = new Date();
   const startHour = 8;
   const endHour = 22;
-  const postsCount = parsed.posts.length; // ideally 20
+  const postsCount = parsed.posts.length; // ideally 3
   const intervalMinutes = ((endHour - startHour) * 60) / postsCount;
 
   const dataToInsert = parsed.posts.map((post: any, index: number) => {
